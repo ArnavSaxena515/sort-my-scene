@@ -19,6 +19,7 @@ export async function saveMessage(
   await put("message.json", JSON.stringify(data), {
     access: "public",
     addRandomSuffix: false,
+    allowOverwrite: true,
     contentType: "application/json",
   });
 }
