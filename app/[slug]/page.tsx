@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { kv } from "@vercel/kv";
+import { list } from "@vercel/blob";
 import { LANGUAGES } from "@/lib/languages";
 import { MessageData, TranslationEntry } from "@/lib/types";
 import AdminClient from "./AdminClient";
@@ -19,9 +19,13 @@ export default async function AdminPage({
 
   let existing: MessageData | null = null;
   try {
-    existing = await kv.get<MessageData>("message");
+    const { blobs } = await list({ prefix: "message.json" });
+    if (blobs.length > 0) {
+      const res = await fetch(blobs[0].url, { cache: "no-store" });
+      existing = await res.json();
+    }
   } catch {
-    // KV not yet configured — start fresh
+    // Blob not yet configured — start fresh
   }
 
   const initialTranslations: Record<string, TranslationEntry> =

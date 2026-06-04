@@ -1,4 +1,4 @@
-import { kv } from "@vercel/kv";
+import { list } from "@vercel/blob";
 import { LANGUAGES, RTL_CODES } from "@/lib/languages";
 import { MessageData } from "@/lib/types";
 
@@ -8,9 +8,13 @@ export default async function HomePage() {
   let data: MessageData | null = null;
 
   try {
-    data = await kv.get<MessageData>("message");
+    const { blobs } = await list({ prefix: "message.json" });
+    if (blobs.length > 0) {
+      const res = await fetch(blobs[0].url, { cache: "no-store" });
+      data = await res.json();
+    }
   } catch {
-    // KV not configured — show empty state
+    // Blob not configured — show empty state
   }
 
   const enabled = LANGUAGES.filter(

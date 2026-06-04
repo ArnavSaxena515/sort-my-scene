@@ -1,6 +1,6 @@
 "use server";
 
-import { kv } from "@vercel/kv";
+import { put } from "@vercel/blob";
 import { MessageData, TranslationEntry } from "@/lib/types";
 
 export async function saveMessage(
@@ -16,5 +16,9 @@ export async function saveMessage(
     updatedAt: new Date().toISOString(),
   };
 
-  await kv.set("message", data);
+  await put("message.json", JSON.stringify(data), {
+    access: "public",
+    addRandomSuffix: false,
+    contentType: "application/json",
+  });
 }
