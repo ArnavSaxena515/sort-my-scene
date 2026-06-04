@@ -17,13 +17,15 @@ body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
+/* ── Animations ── */
+
 @keyframes live-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.1; }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -32,14 +34,49 @@ body {
   to   { transform: translateX(-50%); }
 }
 
-.animate-live-blink {
-  animation: live-blink 1.4s ease-in-out infinite;
+/* glitch fires occasionally — 6s cycle, chaos for ~0.4s */
+@keyframes glitch {
+  0%, 88%, 100% {
+    text-shadow: none;
+    transform: translate(0);
+    opacity: 1;
+  }
+  89% { text-shadow: -4px 0 #ff2222, 4px 0 #22ffff; transform: translate(-3px, 0); }
+  90% { text-shadow:  4px 0 #ff2222,-4px 0 #22ffff; transform: translate( 3px, 1px); }
+  91% { text-shadow: -2px 0 #ff2222, 2px 0 #22ffff; transform: translate(-1px, -1px); opacity: 0.8; }
+  92% { text-shadow:  2px 0 #ff2222,-2px 0 #22ffff; transform: translate( 2px, 0); }
+  93% { text-shadow: none; transform: translate(0); opacity: 1; }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out both;
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
-.animate-ticker {
-  animation: ticker 28s linear infinite;
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-1deg); }
+  75%       { transform: rotate(1deg); }
+}
+
+@keyframes importance-fill {
+  from { width: 0%; }
+  to   { width: 94%; }
+}
+
+.animate-live-blink  { animation: live-blink 1.4s ease-in-out infinite; }
+.animate-fade-in-up  { animation: fade-in-up 0.5s ease-out both; }
+.animate-ticker      { animation: ticker 32s linear infinite; }
+.animate-glitch      { animation: glitch 6s ease-in-out infinite; }
+.animate-blink-cursor{ animation: blink-cursor 1s step-end infinite; }
+.animate-shake       { animation: shake 0.4s ease-in-out; }
+.animate-importance  { animation: importance-fill 1.5s ease-out both; }
+
+/* Warning stripes */
+.warning-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    #f59e0b 0px, #f59e0b 8px,
+    #1c1917 8px, #1c1917 16px
+  );
 }
