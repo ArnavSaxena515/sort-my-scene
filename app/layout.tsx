@@ -9,7 +9,17 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: "Sort My Scene",
-  description: "A message for you.",
+  description: "A message, in every language.",
+  openGraph: {
+    title: "Sort My Scene",
+    description: "A message, in every language.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Sort My Scene",
+    description: "A message, in every language.",
+  },
 };
 
 export default function RootLayout({
